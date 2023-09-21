@@ -1,0 +1,3 @@
+from coordenacao.serializers.alunoSerializer import AlunoSerializer
+from coordenacao.serializers.disciplinaSerializer import DisciplinaSerializer
+from coordenacao.serializers.tarefaSerializer import TarefaSerializer
