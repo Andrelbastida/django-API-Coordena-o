@@ -1,19 +1,3 @@
-# # eclui o generics
-# from rest_framework import generics
-# #from rest_framework.views import APIView # estamos importando a biblioteca de API View
-# from coordenacao.models.disciplinaModel import Disciplina
-# from coordenacao.serializers.disciplinaSerializer import DisciplinaSerializer
-
-# class DisciplinaListCreateView(generics.ListCreateAPIView):
-#     queryset = Disciplina.objects.all()
-#     serializer_class = DisciplinaSerializer
-
-# class DisciplinaDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Disciplina.objects.all()
-#     serializer_class = DisciplinaSerializer
-
-
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -21,7 +5,7 @@ from rest_framework import status
 from coordenacao.models.disciplinaModel import Disciplina
 from coordenacao.serializers.disciplinaSerializer import DisciplinaSerializer
 
-# View para listar todas as disciplinas
+# View para listar todas as disciplinas, e adicionar alguma disciplina
 class DisciplinaListView(APIView):
     def get(self, request):
         disciplinas = Disciplina.objects.all()
@@ -41,7 +25,7 @@ class DisciplinaDetailView(APIView):
         try:
             return Disciplina.objects.get(pk=pk)
         except Disciplina.DoesNotExist:
-            raise status.HTTP_404_NOT_FOUND
+            raise Http404  # Use Http404 para indicar que a disciplina não foi encontrada
 
     def get(self, request, pk):
         disciplina = self.get_object(pk)

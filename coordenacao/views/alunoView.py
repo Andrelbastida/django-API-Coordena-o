@@ -1,8 +1,10 @@
-# eclui o generics
 from rest_framework.views import APIView # estamos importando a biblioteca de API View
+from rest_framework.response import Response
+from rest_framework import status
+
 from coordenacao.models.alunoModel import Aluno
 from coordenacao.serializers.alunoSerializer import AlunoSerializer
-from rest_framework.response import Response
+
 
 class AlunoListView(APIView):
     def get(self, request):
@@ -13,15 +15,11 @@ class AlunoListView(APIView):
 
     def post(self, request):
         # Método para criar um novo aluno (POST)
-        form = AlunoForm(request.data)
-        if form.is_valid():
-            nome = form.cleaned_data['nome']  
-            email = form.cleaned_data['email']
-            aluno = Aluno(nome=nome, email=email)
-            aluno.save()
-            serializer = AlunoSerializer(aluno)
+        serializer = AlunoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AlunoDetailView(APIView):
     def get(self, request, pk):
