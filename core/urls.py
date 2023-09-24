@@ -3,6 +3,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from coordenacao.urls import urlpatterns
+from coordenacao.views.apiRootView import api_root
 #from coordenacao.views.alunoView import AlunoListCreateView
 
 
@@ -12,7 +13,8 @@ from coordenacao.urls import urlpatterns
 # router.register('alunos', AlunoListCreateView, basename='Alunos' )
 
 urlpatterns = [
+    path('', api_root, name='api-root'),
  #   path('admin/', admin.site.urls),
     #path('', include(router.urls)), ### corrigir depois 
-    path('api/', include('coordenacao.urls')),
+    #path('api/', include('coordenacao.urls')),
 ]
