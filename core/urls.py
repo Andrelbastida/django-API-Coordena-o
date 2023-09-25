@@ -4,6 +4,6 @@ from coordenacao.urls import urlpatterns
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('coordenacao.urls')),
+    path('admin/', admin.site.urls), # Define a rota para a interface de administração do Django
+    path('api/', include('coordenacao.urls')),  # Define a rota para as URLs do aplicativo 'coordenacao' usando 'include', para adiciona-las 
 ]
