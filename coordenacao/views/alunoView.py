@@ -1,29 +1,26 @@
-from rest_framework.views import APIView # estamos importando a biblioteca de API View
-from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.views import APIView # estamos importando a biblioteca de API View.
+from rest_framework.response import Response # Importa a classe Response para enviar respostas HTTP.
+from rest_framework import status # Importa códigos de status HTTP.
 
-from coordenacao.models.alunoModel import Aluno
-from coordenacao.serializers.alunoSerializer import AlunoSerializer
+from coordenacao.models.alunoModel import Aluno # Importa o modelo Aluno.
+from coordenacao.serializers.alunoSerializer import AlunoSerializer # Importa o serializador AlunoSerializer.
 
 
-class AlunoListView(APIView):
+class AlunoListView(APIView): # Método para listar todos os alunos (GET).
     def get(self, request):
-        # Método para listar todos os alunos (GET)
-        alunos = Aluno.objects.all()
-        serializer = AlunoSerializer(alunos, many=True)
-        return Response(serializer.data)
+        alunos = Aluno.objects.all() # Obtemos todos os atributos de nosso modelo Aluno e resumimos como "alunos". 
+        serializer = AlunoSerializer(alunos, many=True) # Serializa os atributos de nosso modelo.
+        return Response(serializer.data) # Retorna os atributos serializados. 
 
-    def post(self, request):
-        # Método para criar um novo aluno (POST)
-        serializer = AlunoSerializer(data=request.data)
+    def post(self, request): # Método para criar um novo aluno (POST)
+        serializer = AlunoSerializer(data=request.data) # Serializa 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class AlunoDetailView(APIView):
+class AlunoDetailView(APIView): # Método para obter detalhes de um aluno específico (GET)
     def get(self, request, pk):
-        # Método para obter detalhes de um aluno específico (GET)
         aluno = self.get_object(pk)
         serializer = AlunoSerializer(aluno)
         return Response(serializer.data)
