@@ -13,23 +13,23 @@ class AlunoListView(APIView): # Método para listar todos os alunos (GET).
         return Response(serializer.data) # Retorna os atributos serializados. 
 
     def post(self, request): # Método para criar um novo aluno (POST)
-        serializer = AlunoSerializer(data=request.data) # Serializa 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = AlunoSerializer(data=request.data) # Serializa os dados depositados
+        if serializer.is_valid(): # Verifica se são dados válidos
+            serializer.save() # Salva o novo aluno 
+            return Response(serializer.data, status=status.HTTP_201_CREATED) # Retorna os dados do novo aluno com status 201(Criado)
+        #Caso apresente algum erro :
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # Retorna os erros de validação com status 400 (Bad Request)
 
-class AlunoDetailView(APIView): # Método para obter detalhes de um aluno específico (GET)
-    def get(self, request, pk):
-        aluno = self.get_object(pk)
-        serializer = AlunoSerializer(aluno)
-        return Response(serializer.data)
+class AlunoDetailView(APIView): 
+    def get(self, request, pk): # Método para obter detalhes de um aluno específico através de seu ID (GET).
+        aluno = self.get_object(pk) # Obtém o aluno com base no ID fornecido.
+        serializer = AlunoSerializer(aluno) # Serializa os atributos do aluno.
+        return Response(serializer.data) # Retorna os atributos do aluno como resposta HTTP.
 
-    def put(self, request, pk):
-        # Método para atualizar os detalhes de um aluno específico (PUT)
-        aluno = self.get_object(pk)
-        serializer = AlunoSerializer(aluno, data=request.data)
-        if serializer.is_valid():
+    def put(self, request, pk): # Método para atualizar os atributos de um aluno específico (PUT).
+        aluno = self.get_object(pk) # Obtém o aluno com base no ID fornecido
+        serializer = AlunoSerializer(aluno, data=request.data) # Serializa os atributos ATUALIZADOS do aluno.
+        if serializer.is_valid(): # Verifica se são válidos
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
